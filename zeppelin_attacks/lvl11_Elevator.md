@@ -1,0 +1,8 @@
+# Level 11 - Elevator
+
+### Goal
+Get to the top floor. I.e. set top = true.
+
+### Approach
+Looking at the contract, it aims to use a Building interface provided right above it. When executing the goTo() it therefore expects a isLastFloor method that takes a uint and returns a boolean. However, as we see in the goTo(), it links this Building interface with an address that we can provide (that of msg.sender). After this we see that only if the call to the newly provided building is INITIALLY false, we can get access to the top variable (however, we need to set this to true...). That seems impossible at first because the return value has to be false to get to access the top variable but then that same method call needs to return true. 
+What we do is we set up a contract that has a isLastFloor() method, taking in an uint and returning a bool. However, we will also set a private variable that keeps a counter and call it "count" (and set it = 0). If we can make it so that the first time our isLastFloor() method is called it will return false but the second time it will return true, we have done the job. We will say "if count == 0, increment count by 1 and return false, else return true." This means the first call will return false (count == 0) but the second time (now that count has been incremented by 1) it will return true. Now we just need to set up a function in our contract that calls the goTo method of Elevator. Once we call this it will set a building with our address, call our isLastFloor() (which returns false), and then set top equal to the return value of another call to our isLastFloor() method, which returns true.
