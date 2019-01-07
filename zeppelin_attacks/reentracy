@@ -1,0 +1,7 @@
+# Reentrancy
+
+### Goal
+Empty the entire balance of the contract (which has been set up with 1 ether).
+
+### Approach
+The contract is written as such that if we can donate an amount to an address of a contract we create, we can have this contract call the withdraw function, and have it re-enter and call the withdraw again (by setting the fallback function as such) before our amount can be updated. Bonus, we can technically also have our balance that is tracked by the Reentrance contract underflow 0 and become as big as 2^256.

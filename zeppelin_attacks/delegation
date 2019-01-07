@@ -1,0 +1,10 @@
+# Delegate
+
+### Goal
+The goal is to claim ownership of the Delegation contract.
+
+### Approach
+We want to use the fact that calling a function using delegatecall will have that contract operate from within our own context.
+In other words, the contract will act on our behalf, taking our address as its own (msg.sender for all functions coming from that contract as a result of our delegatecall will have our address as value.)
+
+In this case, we want to call a function within Delegation that will delegatecall the pwn() function in Delegate. What will happen is the the pwn() function will be run from within the context of the Delegation contract with us as msg.sender, setting owner of Delegation to our address.
